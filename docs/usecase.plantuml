@@ -1,0 +1,63 @@
+@startuml
+left to right direction
+
+actor "Клиент" as Client
+actor "Администратор" as Admin
+
+package HotelProject {
+    usecase "Регистрация" as Register
+    usecase "Вход в систему" as LoginClient
+    usecase "Бронирование\nномера в гостинице" as Booking
+    usecase "Отмена\nбронирования" as CancelBooking
+    
+    usecase "Просмотр гостиниц" as ViewHotels
+    usecase "Выбор гостиницы" as SelectHotel
+    usecase "Просмотр номеров" as ViewRooms
+    usecase "Выбор номера" as SelectRoom
+
+    usecase "Вход в систему" as LoginAdmin
+    usecase "Меню гостиницы" as HotelMenu
+    usecase "Регистрация нового\nадминистратора (и\nгостиницы)" as RegisterAdmin
+    usecase "Меню\nбронирований" as BookingMenu
+
+    usecase "Добавить комнату в\nгостиницу" as AddRoom
+    usecase "Указать\nвместительность" as SetCapacity
+    usecase "Редактировать\nномер" as EditRoom
+    usecase "Изменить\nвместимость\nномера" as ChangeCapacity
+    usecase "Убрать комнату из\nгостиницы" as RemoveRoom
+    usecase "Убрать клиента из\nкомнаты гостиницы" as RemoveClient
+
+    usecase "Отмена\nбронирования\nклиента" as CancelClientBooking
+    usecase "Просмотр\nбронирований" as ViewBookings
+}
+
+Client -- Register
+Client -- LoginClient
+
+LoginClient -- Booking
+LoginClient -- CancelBooking
+LoginClient -- ViewHotels
+
+Booking ..> ViewHotels : <<include>>
+Booking ..> SelectHotel : <<include>>
+Booking ..> ViewRooms : <<include>>
+Booking ..> SelectRoom : <<include>>
+
+Admin -- LoginAdmin
+
+LoginAdmin -- HotelMenu
+LoginAdmin -- RegisterAdmin
+LoginAdmin -- BookingMenu
+
+HotelMenu -- AddRoom
+HotelMenu -- EditRoom
+HotelMenu -- RemoveRoom
+
+AddRoom ..> SetCapacity : <<include>>
+EditRoom -- ChangeCapacity
+EditRoom -- RemoveClient
+
+BookingMenu -- CancelClientBooking
+BookingMenu -- ViewBookings
+
+@enduml
