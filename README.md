@@ -40,6 +40,7 @@ HotelProject/
     │
     ├── add_room_algorithm.jpg # Описание алгоритма добавления комнаты в виде блок-схемы
     ├── booking_algorithm.jpg # Описание алгоритма бронирования комнаты в виде блок-схемы
-    └── usecase.plantuml      # Use Case диаграмма
-
+    └── diagrams/      # Диаграммы
+        ├── usecase.plantuml           # Use Case диаграмма
+│       └── ...                        # Другие диаграммы
 ```
