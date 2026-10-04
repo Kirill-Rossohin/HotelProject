@@ -1,10 +1,10 @@
-@startuml
+@startuml HotelProject Use Case
 left to right direction
 
 actor "Клиент" as Client
 actor "Администратор" as Admin
 
-package HotelProject {
+rectangle "HotelProject" {
     usecase "Регистрация" as Register
     usecase "Вход в систему" as LoginClient
     usecase "Бронирование\nномера в гостинице" as Booking
