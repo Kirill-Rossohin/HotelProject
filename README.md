@@ -44,3 +44,7 @@ HotelProject/
         ├── usecase.plantuml           # Use Case диаграмма
         └── ...                        # Другие диаграммы
 ```
+
+
+### ER-диаграмма базы данных
+![alt text](docs\diagrams\erd.jpg)
