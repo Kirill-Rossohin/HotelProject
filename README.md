@@ -45,6 +45,5 @@ HotelProject/
         └── ...                        # Другие диаграммы
 ```
 
-
 ### ER-диаграмма базы данных
-![alt text](docs\diagrams\erd.jpg)
+![alt text](image.png)
