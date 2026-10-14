@@ -46,4 +46,4 @@ HotelProject/
 ```
 
 ### ER-диаграмма базы данных
-![alt text](image.png)
+![er diagram](docs/diagrams/erd.jpg)
