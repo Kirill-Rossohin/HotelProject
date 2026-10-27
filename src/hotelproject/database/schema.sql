@@ -14,6 +14,7 @@ CREATE TABLE users (
     name TEXT NOT NULL,
     surname TEXT NOT NULL,
     patronymic TEXT,
+    login TEXT NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
     user_role INTEGER NOT NULL,
     FOREIGN KEY (user_role) REFERENCES user_roles (ID)
