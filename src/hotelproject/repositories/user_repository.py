@@ -58,6 +58,22 @@ def get_by_id(user_id: int) -> User | None:
     return _map(row) if row else None
 
 
+def find_by_credentials(login: str, password_hash: str) -> User | None:
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT user_id, name, surname, patronymic, login, password_hash, user_role
+        FROM users
+        WHERE login = ? AND password_hash = ?
+    """, (login, password_hash))
+
+    row = cur.fetchone()
+    conn.close()
+
+    return _map(row) if row else None
+
+
 def get_all() -> list[User]:
     conn = get_connection()
     cur = conn.cursor()

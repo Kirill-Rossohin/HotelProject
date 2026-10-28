@@ -74,7 +74,7 @@ def get_by_user(user_id: int) -> list[Reservation]:
     return [_map(r) for r in rows]
 
 
-def get_active_by_room(room_id: int) -> Reservation | None:
+def get_active_by_room(room_id: int) -> list[Reservation]:
     conn = get_connection()
     cur = conn.cursor()
 
@@ -84,10 +84,10 @@ def get_active_by_room(room_id: int) -> Reservation | None:
         WHERE room_id = ? AND status = 1
     """, (room_id,))
 
-    row = cur.fetchone()
+    rows = cur.fetchall()
     conn.close()
 
-    return _map(row) if row else None
+    return [_map(row) for row in rows] if rows else []
 
 
 def mark_returned(reservation_end: str, reservation_id: int):

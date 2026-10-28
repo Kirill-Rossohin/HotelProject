@@ -6,5 +6,5 @@ class Reservation:
     room_id: int
     reserved_at: str
     reservation_end: str
-    status_id: bool
+    status: bool
     status_name: str | None = None
