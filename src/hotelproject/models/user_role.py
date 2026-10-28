@@ -1,5 +1,5 @@
 from dataclasses import dataclass
 @dataclass
-class User_Role:
+class UserRole:
     user_role_id: int
     name: str
