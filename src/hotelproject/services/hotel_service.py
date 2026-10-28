@@ -24,6 +24,10 @@ def get_hotel_by_id(hotel_id: int) -> Hotel | None:
     return hotel_repository.get_by_id(hotel_id)
 
 
+def get_hotel_by_owner_id(owner_id: int) -> Hotel | None:
+    return hotel_repository.get_by_owner_id(owner_id)
+
+
 def delete_hotel(hotel_id: int):
     hotel = hotel_repository.get_by_id(hotel_id)
 

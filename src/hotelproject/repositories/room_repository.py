@@ -50,6 +50,22 @@ def get_all() -> list[Room]:
     return [Room(*row) for row in rows]
 
 
+def get_all_hotels_rooms(hotel_id: int) -> list[Room]:
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT room_id, hotel_id, capacity
+        FROM rooms
+        WHERE hotel_id = ?
+    """, (hotel_id,))
+
+    rows = cur.fetchall()
+    conn.close()
+
+    return [Room(*row) for row in rows]
+
+
 def delete(room_id: int):
     conn = get_connection()
     cur = conn.cursor()

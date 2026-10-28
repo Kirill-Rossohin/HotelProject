@@ -34,14 +34,14 @@ def get_user_reservations(user_id: int) -> list[Reservation]:
     return reservation_repository.get_by_user(user_id)
 
 
-def cancel_reservation(reservation_id: int, user_id: int):
+def cancel_reservation(reservation_id: int, user_id: int, user_role: int):
 
     reservation = reservation_repository.get_by_id(reservation_id)
 
     if not reservation:
         raise Exception("Бронь не найдена")
 
-    if reservation.user_id != user_id:
+    if reservation.user_id != user_id and user_role == CLIENT_ROLE_ID:
         raise Exception("Нельзя отменить чужую бронь")
 
     if reservation.status != ACTIVE_STATUS_ID:

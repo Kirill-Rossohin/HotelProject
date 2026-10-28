@@ -34,6 +34,25 @@ def get_by_id(hotel_id: int) -> Hotel | None:
     return Hotel(*row)
 
 
+def get_by_owner_id(owner_id: int) -> Hotel | None:
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT hotel_id, name, owner_id
+        FROM hotels
+        WHERE owner_id = ?
+    """, (owner_id,))
+
+    row = cur.fetchone()
+    conn.close()
+
+    if not row:
+        return None
+
+    return Hotel(*row)
+
+
 def get_by_name(name: str) -> Hotel | None:
     conn = get_connection()
     cur = conn.cursor()

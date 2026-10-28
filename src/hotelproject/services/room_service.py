@@ -15,6 +15,10 @@ def get_all_rooms() -> list[Room]:
     return room_repository.get_all()
 
 
+def get_all_rooms_of_a_hotel(hotel_id: int) -> list[Room]:
+    return room_repository.get_all_hotels_rooms(hotel_id)
+
+
 def get_room_by_id(room_id: int) -> Room | None:
     return room_repository.get_by_id(room_id)
 
