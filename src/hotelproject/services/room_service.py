@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from src.hotelproject.repositories import reservation_repository, hotel_repository, room_repository
 from src.hotelproject.models.room import Room
 
@@ -10,10 +13,10 @@ def create_room(hotel_id: int, capacity: int):
         raise Exception("Вместимость комнаты должна быть больше 0")
     room_repository.create(hotel_id, capacity)
 
-
-def get_all_rooms() -> list[Room]:
-    return room_repository.get_all()
-
+def update_room(room_id: int, capacity: int):
+    if capacity <= 0:
+        raise Exception("Вместимость комнаты должна быть больше нуля")
+    room_repository.update_capacity(room_id, capacity)
 
 def get_all_rooms_of_a_hotel(hotel_id: int) -> list[Room]:
     return room_repository.get_all_hotels_rooms(hotel_id)
@@ -37,7 +40,3 @@ def is_room_available(room_id: int) -> bool:
     active_reservations = reservation_repository.get_active_by_room(room_id)
     occupied_places = len(active_reservations)
     return occupied_places < room.capacity
-
-
-def get_available_rooms() -> list[Room]:
-    return [i for i in room_repository.get_all() if is_room_available(i.room_id)]

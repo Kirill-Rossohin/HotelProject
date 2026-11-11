@@ -1,8 +1,10 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.hotelproject.services.auth_service import (
     authenticate,
     register_user,
-    register_admin,
-    create_default_admin
+    register_admin
 )
 
 
@@ -45,12 +47,11 @@ def register_admin_ui():
     name = input("Имя: ")
     surname = input("Фамилия: ")
     patronymic = input("Отчество: ")
-
     login_value = input("Логин: ")
     password_value = input("Пароль: ")
 
     try:
-        register_user(name, surname, patronymic, login_value, password_value)
+        register_admin(name, surname, patronymic, login_value, password_value)
         print("\nАдминистратор создан")
     except Exception as e:
         print(f"\nОшибка: {e}")

@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from src.hotelproject.database.database import get_connection
 from src.hotelproject.models.user_role import UserRole
 

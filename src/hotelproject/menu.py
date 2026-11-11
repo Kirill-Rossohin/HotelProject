@@ -1,18 +1,19 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.hotelproject.auth import register_admin_ui
-
 from src.hotelproject.services.hotel_service import (
     create_hotel,
     get_all_hotels,
-    delete_hotel,
     get_hotel_by_owner_id
 )
 
 from src.hotelproject.services.room_service import (
     create_room,
-    get_all_rooms,
     delete_room,
     get_all_rooms_of_a_hotel,
-    get_room_by_id
+    get_room_by_id,
+    update_room
 )
 
 from src.hotelproject.services.reservation_service import (
@@ -27,6 +28,12 @@ from src.hotelproject.services.reservation_service import (
 # ADMIN MENU
 # -------------------------
 def admin_menu(user):
+
+    hotel = get_hotel_by_owner_id(user.user_id)
+    if not hotel:
+        print("Для того, чтобы пользоваться функциями администратора, вы должны создать гостиницу, дав ей название.")
+        name = input("Введите название гостиницы: ")
+        create_hotel(name, user.user_id)
 
     while True:
 
@@ -45,7 +52,7 @@ def admin_menu(user):
             reservations_menu(user)
 
         elif choice == "3":
-            register_admin_ui(user)
+            register_admin_ui()
 
         elif choice == "0":
             break
@@ -58,11 +65,11 @@ def client_menu(user):
 
     while True:
 
-        print(f"\nЧитатель ({user.login})")
+        print(f"\nКлиент ({user.login})")
         print("1. Список гостиниц")
         print("2. Мои брони")
         print("3. Забронировать комнату")
-        print("4. Список комнат")
+        print("4. Отменить бронь")
         print("0. Выход")
 
         choice = input("Выберите действие: ")
@@ -76,7 +83,7 @@ def client_menu(user):
                 continue
 
             for i in hotels:
-                print(f"{i}. {i.name}")
+                print(i.name)
 
         elif choice == "2":
 
@@ -87,10 +94,23 @@ def client_menu(user):
                 continue
 
             for i in reservations:
-                print(f"{i.reservation_id} | Room {i.room_id} | Status {i.status}")
+                print(f"Room {i.room_id} | Status {i.status}")
 
         elif choice == "3":
+            hotels = get_all_hotels()
+            
+            if not hotels:
+                print("\nГостиниц нет")
+                continue
 
+            print("Выберите гостиницу и введите её ID: ")
+            for i in hotels:
+                print(f'{i.hotel_id} | {i.name}')
+            hot_id = int(input("ID гостиницы"))
+            rooms_in_hot = get_all_rooms_of_a_hotel(hot_id)
+            print("Список ID комнат: ")
+            for i in rooms_in_hot:
+                print(f'ID {i.room_id} | Capacity {i.capacity}')
             room_id = input("ID комнаты: ")
 
             try:
@@ -99,13 +119,22 @@ def client_menu(user):
             except Exception as e:
                 print(e)
 
+        elif choice == "4":
+            reservations = get_user_reservations(user.user_id)
+            
+            if not reservations:
+                print("\nУ вас нет бронирований")
+                continue
+
+            print("Список активных бронирований: ")
+            for i in reservations:
+                if i.status:
+                    print(f"Room {i.room_id} | Status {i.status}")
+            reserv_id = int(input("Введите ID нужной брони: "))
+            cancel_reservation(reserv_id, user.user_id, user.user_role)
+
         elif choice == "0":
             break
-        elif choice == "4":
-            rooms = get_all_rooms()
-            for i in rooms:
-                print(f'{i}')
-
 
 # -------------------------
 # HOTEL
@@ -139,16 +168,26 @@ def hotel_menu(user):
                 print("Нет комнат")
                 continue
 
-            print("\nСписок комнат:")
+            print("\nСписок комнат: ")
 
             for i in rooms:
                 print(i)
 
             room = get_room_by_id(int(input("Введите ID нужной комнаты: ")))
-            room.capacity = int(input("Введите новую вместительность: "))
+            capacity = int(input("Введите новую вместительность: "))
+            update_room(room.room_id, capacity)
 
         elif choice == "3":
-
+            rooms = get_all_rooms_of_a_hotel(hotel)
+            
+            if not rooms:
+                print("Нет комнат")
+                continue
+            
+            print("\nСписок комнат: ")
+            
+            for i in rooms:
+                print(i)
             delete_room(int(input("Введите ID удаляемой комнаты: ")))
             print("Комната удалена")
 

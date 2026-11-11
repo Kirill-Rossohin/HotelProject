@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from src.hotelproject.repositories import room_repository, reservation_repository, user_repository
 from src.hotelproject.services import room_service
 from src.hotelproject.models.reservation import Reservation
@@ -25,6 +28,8 @@ def create_reservation(user_id: int, room_id: int):
 
     reservation_repository.create(user_id, room_id)
 
+def get_reservation_by_id(reservation_id: int) ->  Reservation | None:
+    return reservation_repository.get_by_id(reservation_id)
 
 def get_all_reservations() -> list[Reservation]:
     return reservation_repository.get_all()

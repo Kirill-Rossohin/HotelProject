@@ -1,9 +1,11 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.hotelproject.database.database import init_db
 
 from src.hotelproject.auth import (
     login,
-    register,
-    register_admin_ui
+    register
 )
 
 from src.hotelproject.menu import admin_menu, client_menu

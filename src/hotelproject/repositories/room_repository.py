@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from src.hotelproject.database.database import get_connection
 from src.hotelproject.models.room import Room
 
@@ -33,21 +36,18 @@ def get_by_id(room_id: int) -> Room | None:
 
     return Room(*row)
 
-
-def get_all() -> list[Room]:
+def update_capacity(room_id: int, capacity: int):
     conn = get_connection()
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT room_id, hotel_id, capacity
-        FROM rooms
-        ORDER BY hotel_id
-    """)
+        UPDATE rooms
+        SET capacity = ?
+        WHERE room_id = ?
+    """, (capacity, room_id))
 
-    rows = cur.fetchall()
+    conn.commit()
     conn.close()
-
-    return [Room(*row) for row in rows]
 
 
 def get_all_hotels_rooms(hotel_id: int) -> list[Room]:

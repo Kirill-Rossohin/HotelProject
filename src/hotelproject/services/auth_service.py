@@ -1,5 +1,9 @@
 import hashlib
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from src.hotelproject.repositories import user_repository
+from src.hotelproject.repositories import hotel_repository
 from src.hotelproject.models.user import User
 
 
@@ -73,4 +77,11 @@ def create_default_admin():
         login="admin",
         password_hash=hash_password("admin"),
         user_role=ADMIN_ROLE_ID
+    )
+
+    new_admin = user_repository.get_by_login("admin")
+    
+    hotel_repository.create(
+        name="TestHotel",
+        owner_id=new_admin.user_id
     )
